@@ -52,3 +52,16 @@ RUN git clone -b v0.14.8 https://github.com/uNetworking/uWebSockets/ /var/local/
     && cd /var/local/git/uWS \
     && make && make install && make clean && ldconfig \
     && rm -rf /var/local/git/uWS
+
+# googleTest
+RUN git clone https://github.com/google/googletest.git /var/local/git/gtest \
+    && cd /var/local/git/gtest \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+    && make \
+    && cp lib/lib*.a /usr/lib \
+    && cd /var/local/git/gtest \
+    && cp -r googletest/include/gtest /usr/include \
+    && cp -r googlemock/include/gmock /usr/include \
+    && rm -rf /var/local/git/gtest
