@@ -9,16 +9,22 @@ ENV TZ=Asia/Tokyo
 RUN apt-get update && apt-get install -y \
     autoconf \
     automake \
+    bash-completion \
     build-essential \
     cmake \
     curl \
+    gdb \
+    gdbserver \
     git \
     g++ \
     libtool \
     libssl-dev \
     make \
     pkg-config \
+    openssh-server \
+    rsync \
     software-properties-common \
+    sudo \
     unzip \
     uuid \
     uuid-dev \
@@ -65,3 +71,10 @@ RUN git clone https://github.com/google/googletest.git /var/local/git/gtest \
     && cp -r googletest/include/gtest /usr/include \
     && cp -r googlemock/include/gmock /usr/include \
     && rm -rf /var/local/git/gtest
+
+# sshdÇÃê›íË
+RUN mkdir /run/sshd && \
+    useradd -m -s /bin/bash ubuntu && gpasswd -a ubuntu sudo && \
+    echo 'ubuntu:ubuntu' | chpasswd
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
